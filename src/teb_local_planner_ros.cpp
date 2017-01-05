@@ -707,6 +707,14 @@ bool TebLocalPlannerROS::transformGlobalPlan(const tf::TransformListener& tf, co
     {
       // Return the index of the current goal point (inside the distance threshold)
       if (current_goal_idx) *current_goal_idx = i-1; // subtract 1, since i was increased once before leaving the loop
+
+      geometry_msgs::PoseStamped last_pose = transformed_plan.back();
+
+      transformed_plan.clear();
+      transformed_plan.push_back(last_pose);
+
+      // Return the index of the current goal point (inside the distance threshold)
+      if (current_goal_idx) *current_goal_idx = int(global_plan.size())-1;
     }
     
     // Return the transformation from the global plan to the global planning frame if desired
